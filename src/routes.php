@@ -23,6 +23,7 @@ $router->get('/fotos', 'ProfileController@photos');
 $router->get('/amigos', 'ProfileController@friends');
 
 $router->get('/config', 'ProfileController@settings');
+$router->post('/config', 'ProfileController@settingsAction');
 
 $router->get('/pesquisa', 'SearchController@index');
 

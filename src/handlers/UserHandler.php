@@ -10,11 +10,14 @@ class UserHandler {
             $token = $_SESSION['token'];
 
             $data = User::select()->where('token', $token)->one();
+            //echo $_SESSION['token'];
+            //echo $data ? 'true' : 'false';
             if(count($data) > 0) {
                 
                 $loggedUser = new User();
                 $loggedUser->id = $data['id'];
                 $loggedUser->name = $data['name'];
+                $loggedUser->email = $data['email'];
                 $loggedUser->avatar = $data['avatar'];
 
                 return $loggedUser;
@@ -63,6 +66,7 @@ class UserHandler {
             $user->id = $data['id'];
             $user->name = $data['name'];
             $user->birthdate = $data['birthdate'];
+            $user->email = $data['email'];
             $user->city = $data['city'];
             $user->work = $data['work'];
             $user->avatar = $data['avatar'];
@@ -161,5 +165,16 @@ class UserHandler {
             }
         }
         return $users;
+    }
+
+    public static function editUserData($column, $data, $id) {
+        if($column == 'password') {
+            $data = password_hash($data, PASSWORD_DEFAULT);
+        }
+
+        User::update()
+            ->set($column, $data)
+            ->where('id', $id)
+        ->execute();
     }
 }
